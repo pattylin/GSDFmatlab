@@ -1,0 +1,103 @@
+5,6d4
+< % refer to Natalie and modified by pylin.patty 10/11/2013
+< 
+9,16d6
+< % COLORS
+< BLUE=[44/255 77/255 143/255];
+< RED=[231/255 47/255 39/255];
+< GREEN=[19/255 166/255 50/255];
+< 
+< 
+< 
+< 
+58c48
+<         % longtitude smoothing 
+---
+> 	% longtitude smoothing
+68c58
+<          % latitude smoothing
+---
+> 	% latitude smoothing
+95c85
+< 
+---
+> %for ie = 30
+103d92
+< 	evdp = eventcs.evdp;
+292,317d280
+< 
+<         % from natalie 10/11/2013 =====
+<         clear azi_diff
+<         % Calculate propagation direction (equal to direction of gradient
+<         % of phase surface)
+<         real_azi=angle(GVx + GVy.*sqrt(-1));
+<         real_azi = rad2deg(real_azi)+360-180;
+<         [dist azi] = distance(xi,yi,evla,evlo);
+<         azi = azi-180;
+<         azi_diff = real_azi - azi;
+<         ind = find(azi_diff>180);
+<         azi_diff(ind) = azi_diff(ind)-360;
+<         sparse_ind = 1:10:length(dist(:));
+<         plot_azi = azi + azi_diff;
+<         azix = cosd(plot_azi);
+<         aziy = sind(plot_azi);
+<         % end from natalie ============
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+329d291
+<         eventphv(ip).azi_diff = azi_diff;
+337d298
+< 		eventphv(ip).evdp = eventcs.evdp
+363c324
+< 			r = 0.01;
+---
+> 			r = 0.1;
+370,410d330
+< 
+<         % Plot raypaths ontop of phase velocity
+<         %load All_Stations.mat
+<         figure(83)
+<         clf
+<         for ip = 1:length(periods)
+<             clear rays_temp
+<             rays_temp = eventphv(ip).rays;
+<             subplot(M,N,ip)
+<             ax = worldmap(lalim,lolim);
+<             set(ax,'Visible','off')
+<             h1=surfacem(xi,yi,eventphv(ip).GV);
+<          %   plotm(stlas_EKSBE,stlos_EKSBE,'ok','markerfacecolor',GREEN);
+<             hold on
+<             % set(h1,'facecolor','interp');
+<             for ir = 1:length(rays_temp)
+<                 rayx = [rays_temp(ir,1);rays_temp(ir,3)];
+<                 rayy = [rays_temp(ir,2);rays_temp(ir,4)];
+<                 plotm(rayx,rayy,'-k')
+<             end
+<         end
+< 
+< 
+<         figure(84)
+<         clf
+<         for ip = 1:length(periods)
+<             subplot(M,N,ip)
+<             ax = worldmap(lalim,lolim);
+<             set(ax,'Visible','off')
+<             surfacem(xi,yi,eventphv(ip).azi_diff)
+<             quiverm(xi(sparse_ind),yi(sparse_ind),azix(sparse_ind),aziy(sparse_ind),'k');
+<             colormap(seiscmap);
+<             cbar_axis = colorbar();
+<             set(get(cbar_axis,'xlabel'),'String', 'degree');
+<             title('Propagation Direction Anomaly')
+<         end
+<          drawnow;
+< 
+< 
+< 
+< 
